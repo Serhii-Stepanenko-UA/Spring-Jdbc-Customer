@@ -1,0 +1,240 @@
+@startuml
+interface org.example.app.service.customer.CustomerService {
+~ Customer create(CustomerDtoRequest)
+~ List<Customer> fetchAll()
+~ Customer fetchById(Long)
+~ Customer updateById(Long,CustomerDtoRequest)
+~ boolean deleteById(Long)
+~ Customer getLastEntity()
+~ List<Customer> fetchByFirstName(String)
+~ List<Customer> fetchByLastName(String)
+~ List<Customer> fetchByPhone(String)
+~ List<Customer> fetchAllOrderBy(String)
+}
+
+class org.example.app.entity.customer.Customer {
+- Long id
+- String firstName
+- String lastName
+- String phone
+- String address
+}
+
+class org.example.app.config.AppContext {
+~ Environment environment
+~ DataSource dataSource()
+}
+
+
+class org.example.app.dao.customer.CustomerDaoImpl {
+~ NamedParameterJdbcTemplate template
++ boolean create(CustomerDtoRequest)
++ Optional<List<Customer>> fetchAll()
++ Optional<Customer> fetchById(Long)
++ boolean updateById(Long,CustomerDtoRequest)
++ boolean deleteById(Long)
++ Optional<Customer> getLastEntity()
++ Optional<List<Customer>> fetchByFirstName(String)
++ Optional<List<Customer>> fetchByLastName(String)
++ Optional<List<Customer>> fetchByPhone(String)
++ Optional<List<Customer>> fetchAllOrderBy(String)
+}
+
+
+class org.example.app.controller.CustomerController {
+~ CustomerService customerService
++ ResponseEntity<CustomerDtoCreateResponse> createCustomer(CustomerDtoRequest)
++ ResponseEntity<CustomerDtoListResponse> fetchAllCustomers()
++ ResponseEntity<CustomerDtoGetByIdResponse> fetchCustomerById(Long)
++ ResponseEntity<CustomerDtoUpdateResponse> updateCustomerById(Long,CustomerDtoRequest)
++ ResponseEntity<CustomerDtoDeleteResponse> deleteCustomerById(Long)
++ ResponseEntity<CustomerDtoGetLastEntityResponse> getLastEntity()
++ ResponseEntity<CustomerDtoListResponse> fetchByFirstName(String)
++ ResponseEntity<CustomerDtoListResponse> fetchByLastName(String)
++ ResponseEntity<CustomerDtoListResponse> fetchByPhone(String)
++ ResponseEntity<CustomerDtoListResponse> fetchAllOrderBy(String)
+}
+
+
+interface org.example.app.dao.customer.CustomerDao {
+~ boolean create(CustomerDtoRequest)
+~ Optional<List<Customer>> fetchAll()
+~ Optional<Customer> fetchById(Long)
+~ boolean updateById(Long,CustomerDtoRequest)
+~ boolean deleteById(Long)
+~ Optional<Customer> getLastEntity()
+~ Optional<List<Customer>> fetchByFirstName(String)
+~ Optional<List<Customer>> fetchByLastName(String)
+~ Optional<List<Customer>> fetchByPhone(String)
+~ Optional<List<Customer>> fetchAllOrderBy(String)
+}
+
+interface org.example.app.dao.BaseDao {
+~ boolean create(S)
+~ Optional<List<T>> fetchAll()
+~ Optional<T> fetchById(Long)
+~ boolean updateById(Long,S)
+~ boolean deleteById(Long)
+}
+
+class org.example.app.config.WebConfig {
++ void addResourceHandlers(ResourceHandlerRegistry)
+}
+
+class org.example.app.dto.customer.CustomerDtoUpdateResponse {
+- int statusCode
+- String reasonPhrase
+- boolean success
+- String message
+- Customer customer
++ {static} String SUCCESS_MESSAGE
++ {static} String FAILURE_MESSAGE
++ {static} CustomerDtoUpdateResponse of(Long,boolean,Customer)
++ int statusCode()
++ String message()
++ String reasonPhrase()
++ boolean success()
++ Customer customer()
+}
+
+
+class org.example.app.service.customer.CustomerServiceImpl {
+~ CustomerDao customerDao
++ Customer create(CustomerDtoRequest)
++ List<Customer> fetchAll()
++ Customer fetchById(Long)
++ Customer updateById(Long,CustomerDtoRequest)
++ boolean deleteById(Long)
++ Customer getLastEntity()
++ List<Customer> fetchByFirstName(String)
++ List<Customer> fetchByLastName(String)
++ List<Customer> fetchByPhone(String)
++ List<Customer> fetchAllOrderBy(String)
+}
+
+
+class org.example.app.dto.customer.CustomerDtoDeleteResponse {
+- int statusCode
+- String reasonPhrase
+- boolean success
+- String message
++ {static} String SUCCESS_MESSAGE
++ {static} String FAILURE_MESSAGE
++ {static} CustomerDtoDeleteResponse of(Long,boolean)
++ int statusCode()
++ String message()
++ String reasonPhrase()
++ boolean success()
+}
+
+
+class org.example.app.entity.customer.CustomerMapper {
++ Customer mapRow(ResultSet,int)
+}
+
+class org.example.app.dto.customer.CustomerDtoGetByIdResponse {
+- int statusCode
+- String reasonPhrase
+- boolean success
+- String message
+- Customer customer
++ {static} String SUCCESS_MESSAGE
++ {static} String FAILURE_MESSAGE
++ {static} CustomerDtoGetByIdResponse of(Long,boolean,Customer)
++ int statusCode()
++ String message()
++ String reasonPhrase()
++ boolean success()
++ Customer customer()
+}
+
+
+interface org.example.app.service.BaseService {
+~ T create(S)
+~ List<T> fetchAll()
+~ T fetchById(Long)
+~ T updateById(Long,S)
+~ boolean deleteById(Long)
+}
+
+class org.example.app.dto.customer.CustomerDtoListResponse {
+- int statusCode
+- String reasonPhrase
+- boolean success
+- String message
+- List<Customer> customerList
++ {static} String SUCCESS_MESSAGE
++ {static} String FAILURE_MESSAGE
++ {static} CustomerDtoListResponse of(boolean,List<Customer>)
++ int statusCode()
++ List<Customer> customerList()
++ String message()
++ String reasonPhrase()
++ boolean success()
+}
+
+
+class org.example.app.dto.customer.CustomerDtoGetLastEntityResponse {
+- int statusCode
+- String reasonPhrase
+- boolean success
+- String message
+- Customer customer
++ {static} String SUCCESS_MESSAGE
++ {static} String FAILURE_MESSAGE
++ {static} CustomerDtoGetLastEntityResponse of(boolean,Customer)
++ int statusCode()
++ String message()
++ String reasonPhrase()
++ boolean success()
++ Customer customer()
+}
+
+
+class org.example.app.dto.customer.CustomerDtoRequest {
+- Long id
+- String firstName
+- String lastName
+- String phone
+- String address
++ String lastName()
++ String firstName()
++ String phone()
++ String address()
++ Long id()
+}
+
+
+class org.example.app.dto.customer.CustomerDtoCreateResponse {
+- int statusCode
+- String reasonPhrase
+- boolean success
+- String message
+- Customer customer
++ {static} String SUCCESS_MESSAGE
++ {static} String FAILURE_MESSAGE
++ {static} CustomerDtoCreateResponse of(boolean,Customer)
++ int statusCode()
++ String message()
++ String reasonPhrase()
++ boolean success()
++ Customer customer()
+}
+
+
+class org.example.app.config.AppInitializer {
+# Class<?>[] getRootConfigClasses()
+# Class<?>[] getServletConfigClasses()
+# String[] getServletMappings()
+}
+
+
+
+org.example.app.service.BaseService <|-- org.example.app.service.customer.CustomerService
+org.example.app.dao.customer.CustomerDao <|.. org.example.app.dao.customer.CustomerDaoImpl
+org.example.app.dao.BaseDao <|-- org.example.app.dao.customer.CustomerDao
+org.springframework.web.servlet.config.annotation.WebMvcConfigurer <|.. org.example.app.config.WebConfig
+org.example.app.service.customer.CustomerService <|.. org.example.app.service.customer.CustomerServiceImpl
+org.springframework.jdbc.core.RowMapper <|.. org.example.app.entity.customer.CustomerMapper
+org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer <|-- org.example.app.config.AppInitializer
+@enduml

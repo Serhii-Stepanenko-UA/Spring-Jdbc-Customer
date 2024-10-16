@@ -1,0 +1,141 @@
+
+REST API Customer
+---------------------
+
+Postman для тесту REST API
+https://www.postman.com/
+
+Для здійснення кожного запиту, натискаємо Send .
+Якщо REST-запит має тіло, необхідно налаштування
+в Postman: Body > raw > JSON.
+
+
+(1) Отримання даних
+
+GET
+http://localhost:8080/Your-Project-Name-1.0-SNAPSHOT/api/v1/customers
+
+Даних, поки, немає.
+
+
+(2) Створення даних
+
+POST
+http://localhost:8080/Your-Project-Name-1.0-SNAPSHOT/api/v1/customers
+
+Виконуємо окремі запити
+
+
+{
+    "firstName": "John",
+    "lastName": "Green",
+    "phone": "01080757893456",
+    "address": "Hawaii, Honolulu, Ocean-street, 13"
+}
+
+{
+    "firstName": "Tobias",
+    "lastName": "Lindemann",
+    "phone": "0490437834893",
+    "address": "Deutchland, Berlin, Heiligendamm, 17"
+}
+
+{
+    "firstName": "Alice",
+    "lastName": "Terra",
+    "phone": "0770893450076",
+    "address": "Australia, Canberra, Opera Avenue, 33"
+}
+
+{
+    "firstName": "Tom",
+    "lastName": "Bright",
+    "phone": "0270437838475",
+    "address": "Mexico, Mexico City, st. St. Mary 95"
+}
+
+{
+    "firstName": "Lucy",
+    "lastName": "Moon",
+    "phone": "0430859457834",
+    "address": "Poland, Kraków, Town Hall Square, 23"
+}
+
+{
+    "firstName": "David",
+    "lastName": "Terra",
+    "phone": "0220768943389",
+    "address": "Israel, Haifa, Christ Avenue, 10"
+}
+
+{
+    "firstName": "Mary",
+    "lastName": "Waters",
+    "phone": "050438745897",
+    "address": "Great Britain, Big Ben Square, 11"
+}
+
+{
+    "firstName": "Alice",
+    "lastName": "Bright",
+    "phone": "0670789348572",
+    "address": "Bulgaria, Sofia, Street of Songs 52"
+}
+
+Перевіряємо через MySQL Workbench.
+
+
+(3) Отримання всіх даних
+
+GET
+http://localhost:8080/Your-Project-Name-1.0-SNAPSHOT/api/v1/customers
+
+
+(4) Отримання даних за id
+
+GET
+http://localhost:8080/Your-Project-Name-1.0-SNAPSHOT/api/v1/customers/2
+
+Також, за неіснуючим id
+
+GET
+http://localhost:8080/Your-Project-Name-1.0-SNAPSHOT/api/v1/customers/17
+
+
+(5) Отримання останнього запису в таблиці
+
+GET
+http://localhost:8080/Your-Project-Name-1.0-SNAPSHOT/api/v1/customers/last-entity
+
+
+(6) Отримання даних за Query Params тут
+src/main/java/org/example/app/controller/CustomerController.java
+
+
+(7) Оновлення даних за id
+
+PUT
+http://localhost:8080/Your-Project-Name-1.0-SNAPSHOT/api/v1/customers/3
+
+{
+    "firstName": "Sara",
+    "lastName": "Goldman",
+    "phone": "0380973648799",
+    "address": "Ukraine, Odesa, Deribasiwska str, 11"
+}
+
+Перевіряємо через MySQL Workbench та REST-запит за відповідним id.
+
+Також, спробуємо оновити за неіснуючим id.
+
+
+(8) Видалення даних за id
+
+DELETE
+http://localhost:8080/Your-Project-Name-1.0-SNAPSHOT/api/v1/customers/4
+
+Перевіряємо через MySQL Workbench, REST-запити отримання всіх даних
+та за відповідним id.
+
+Також, спробуємо повторно видалити та тим самим id, та за неіснуючим id.
+
